@@ -6,7 +6,6 @@ function collapseCell(grid, row, col) {
 
 function chooseTileWithWeight(possibleTiles) {
     let rand = Math.random();  // Since the weights sum to 1, we can directly use this random value
-    
     for (let i = 0; i < possibleTiles.length; i++) {
         rand -= possibleTiles[i].weight;  // Subtract the weight of the current tile
         if (rand <= 0) {

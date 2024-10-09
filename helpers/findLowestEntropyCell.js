@@ -1,5 +1,5 @@
 function getCellEntropy(cell) {
-    if (cell.length === 1) return Infinity
+    if (cell.length === 1 || cell.length === 0) return Infinity
     return cell.length; // The number of possible tiles for this cell
 }
 
