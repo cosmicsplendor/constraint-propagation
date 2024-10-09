@@ -8,13 +8,12 @@ const adjOffsets = [
 
 function propagate(table, grid, row, col) {
     const tile = grid[row][col][0]; // The collapsed tile
-
     adjOffsets.forEach(({ dir, offset }) => {
         const [dx, dy] = offset;
         const adjRow = row + dx;
         const adjCol = col + dy;
 
-        if (!isInBounds(adjRow, adjCol)) return
+        if (!isInBounds(adjRow, adjCol, grid)) return
         const validTiles = table[tile][dir];
         const validTileNames = validTiles.map(t => t.tile)
 
@@ -38,8 +37,8 @@ function normalizeWeights(tiles) { // mutates the tiles array
     })
 }
 
-function isInBounds(row, col) {
-    return row >= 0 && row < gridHeight && col >= 0 && col < gridWidth;
+function isInBounds(row, col, grid) {
+    return row >= 0 && row < grid.length && col >= 0 && col < grid[0].length;
 }
 
 module.exports = propagate

@@ -1,5 +1,6 @@
 function collapseCell(grid, row, col) {
     const possibleTiles = grid[row][col];
+    console.log(grid[row])
     const chosenTile = chooseTileWithWeight(possibleTiles);
     grid[row][col] = [chosenTile]; // Collapse to one tile
 }

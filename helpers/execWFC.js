@@ -7,7 +7,7 @@ function isFullyCollapsed(grid) {
 }
 
 function execWFC(table, gridWidth, gridHeight) {
-    const grid = createGrid(gridWidth, gridHeight)
+    const grid = createGrid(gridWidth, gridHeight, Object.keys(table))
     while (!isFullyCollapsed(grid)) {
         const { row, col } = findLowestEntropyCell(grid);
         collapseCell(grid, row, col);

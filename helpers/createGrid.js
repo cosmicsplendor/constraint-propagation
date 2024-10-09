@@ -1,6 +1,5 @@
 const getUndifferentiatedTiles = tiles => {
-    const keys = Object.keys(tiles)
-    return keys.map(key => ({ tile: key, weight: 1 / keys.length}))
+    return tiles.map(key => ({ tile: key, weight: 1 / tiles.length}))
 }
 
 const createGrid = (gridWidth, gridHeight, allTiles) => Array.from({ length: gridHeight }, () => 
