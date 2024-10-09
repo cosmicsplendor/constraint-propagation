@@ -14,6 +14,8 @@ function propagate(table, grid, row, col) {
         const adjCol = col + dy;
 
         if (!isInBounds(adjRow, adjCol, grid)) return
+        if (grid[adjRow][adjCol].length === 1 && grid[adjRow][adjCol][0] === "string") return
+
         const validTiles = table[tile][dir];
         const validTileNames = validTiles.map(t => t.tile)
 
@@ -35,6 +37,7 @@ function normalizeWeights(tiles) { // mutates the tiles array
     tiles.forEach(tile => {
         tile.weight /= sum
     })
+    tiles.sort((a, b) => b.weight - a.weight)
 }
 
 function isInBounds(row, col, grid) {

@@ -1,6 +1,5 @@
 function collapseCell(grid, row, col) {
     const possibleTiles = grid[row][col];
-    console.log(grid[row])
     const chosenTile = chooseTileWithWeight(possibleTiles);
     grid[row][col] = [chosenTile]; // Collapse to one tile
 }
@@ -16,7 +15,7 @@ function chooseTileWithWeight(possibleTiles) {
     }
 
     // Fallback in case of rounding issues (shouldn't normally happen since weights sum to 1)
-    return possibleTiles[possibleTiles.length - 1].tile;
+    return possibleTiles[0].tile;
 }
 
 module.exports = collapseCell
