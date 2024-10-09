@@ -41,3 +41,5 @@ function normalizeWeights(tiles) { // mutates the tiles array
 function isInBounds(row, col) {
     return row >= 0 && row < gridHeight && col >= 0 && col < gridWidth;
 }
+
+module.exports = propagate
