@@ -1,1 +1,26 @@
-[[["en6"],[],["wt_15"],[{"tile":"empty","weight":1}]],[[],["wt_13"],[{"tile":"empty","weight":1}],["wt_15"]],[[{"tile":"win1","weight":1}],["wt_11"],["wt_15"],[{"tile":"empty","weight":1}]],[["en14"],[{"tile":"wt_4","weight":1}],[{"tile":"empty","weight":1}],["wt_7"]]]
+[
+    [
+        "win1",
+        "wt_4",
+        "empty",
+        "wt_6"
+    ],
+    [
+        "wt_1",
+        "wt_4",
+        "empty",
+        "wt_4"
+    ],
+    [
+        "wt_1",
+        "wt_4",
+        "empty",
+        "wt_4"
+    ],
+    [
+        "wt_1",
+        "wt_4",
+        "empty",
+        "wt_13"
+    ]
+]
