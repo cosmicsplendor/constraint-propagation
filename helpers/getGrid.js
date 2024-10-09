@@ -3,8 +3,8 @@ const getUndifferentiatedTiles = tiles => {
     return keys.map(key => ({ tile: key, weight: 1 / keys.length}))
 }
 
-const getGrid = (gridWidth, gridHeight) => Array.from({ length: gridHeight }, () => 
-    Array.from({ length: gridWidth }, () => getUndifferentiatedTiles)
+const getGrid = (gridWidth, gridHeight, allTiles) => Array.from({ length: gridHeight }, () => 
+    Array.from({ length: gridWidth }, () => getUndifferentiatedTiles(allTiles))
 )
 
 module.exports = getGrid

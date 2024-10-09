@@ -17,4 +17,5 @@ function chooseTileWithWeight(possibleTiles) {
     // Fallback in case of rounding issues (shouldn't normally happen since weights sum to 1)
     return possibleTiles[possibleTiles.length - 1].tile;
 }
+
 module.exports = collapseCell
