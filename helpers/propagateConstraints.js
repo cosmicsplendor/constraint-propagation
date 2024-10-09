@@ -6,7 +6,7 @@ const adjOffsets = [
     { dir: "right", offset: [ 0, 1 ] }
 ]
 
-function propagate(grid, row, col) {
+function propagate(table, grid, row, col) {
     const tile = grid[row][col][0]; // The collapsed tile
 
     adjOffsets.forEach(({ dir, offset }) => {
@@ -15,7 +15,7 @@ function propagate(grid, row, col) {
         const adjCol = col + dy;
 
         if (!isInBounds(adjRow, adjCol)) return
-        const validTiles = tiles[tile][dir];
+        const validTiles = table[tile][dir];
         const validTileNames = validTiles.map(t => t.tile)
 
         // Restrict the neighbor's possible tiles to only the valid ones
