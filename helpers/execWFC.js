@@ -6,11 +6,9 @@ function isFullyCollapsed(grid) {
     return grid.every(row => row.every(cell => cell.length === 1 || cell.length === 0));
 }
 
-function execWFC(table, gridWidth, gridHeight) {
-    const grid = createGrid(gridWidth, gridHeight, Object.keys(table))
+function execWFC(table, grid) {
     while (!isFullyCollapsed(grid)) {
         const { row, col } = findLowestEntropyCell(grid);
-        console.log({ row, col })
         collapseCell(grid, row, col);
         propagateConstraints(table, grid, row, col);
     }
