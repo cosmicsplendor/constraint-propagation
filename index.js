@@ -13,10 +13,19 @@ const block = {
       { x: 10, y: 25, w: 2, h: 2 }
     ],
 }
+const block1 = {
+  x: 0,
+  y: 0,
+  w: 10,
+  h: 10,
+  children: [
+    {x: 0, y:0, w: 10, h: 10}
+  ]
+}
 
 // createGrid now takes in binary matrix of grids and populates them accordingly
 
-const grid =  createGridFromBlock(block, Object.keys(table))
+const grid =  createGridFromBlock(block1, Object.keys(table))
 // preProcessGrid -> collapses tiles appropriately 
 execWFC(table, grid, g => {
   exportData("./preview/map.json", g)
