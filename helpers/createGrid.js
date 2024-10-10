@@ -77,11 +77,14 @@ module.exports = {
         grid.forEach(row => {
             console.log(row.map(v => v === null ? "n": v).join(" "))
         })
-        return grid.map(row => {
-            return row.map(cell => {
+        grid.edgeMap = Array.from({ length: grid.length }, () => {
+            return Array.from({ length: grid[0].length }, () => 0)
+        })
+        return grid.map((row, i) => {
+            return row.map((cell, j) => {
                 if (cell === null) return [ "empty" ]
                 if (cell === 0) return { type: "semi_collapsed", tile: "empty" }
-                return getUndifferentiatedTiles(allTiles)
+                const getUndifferentiatedTiles(allTiles)
             })
         })
     }
