@@ -7,12 +7,14 @@ function isFullyCollapsed(grid) {
         return cell.length === 1 || cell.length === 0
     }));
 }
-
-function execWFC(table, grid) {
+const wait = t => new Promise(resolve => setTimeout(resolve, t * 1000))
+async function execWFC(table, grid, exportGrid) {
     while (!isFullyCollapsed(grid)) {
         const { row, col } = findLowestEntropyCell(grid);
         collapseCell(grid, row, col);
         propagateConstraints(table, grid, row, col);
+        exportGrid(grid)
+        await wait(1.5)
     }
     return grid
 }

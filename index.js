@@ -18,5 +18,8 @@ const block = {
 
 const grid =  createGridFromBlock(block, Object.keys(table))
 // preProcessGrid -> collapses tiles appropriately 
-const resultGrid = execWFC(table, grid)
-exportData("./preview/map.json", resultGrid)
+execWFC(table, grid, g => {
+  exportData("./preview/map.json", g)
+}).then(resultGrid => {
+  // exportData("./preview/map.json", resultGrid)
+})

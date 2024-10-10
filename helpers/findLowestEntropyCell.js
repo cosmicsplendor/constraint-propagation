@@ -10,6 +10,10 @@ function findLowestEntropyCell(grid) {
     for (let row = 0; row < grid.length; row++) {
         for (let col = 0; col < grid[row].length; col++) {
             if (grid[row][col].type === "semi_collapsed") return { row, col }
+        }
+    }
+    for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < grid[row].length; col++) {
             const entropy = getCellEntropy(grid[row][col]);
             if (entropy < minEntropy) {
                 minEntropy = entropy;

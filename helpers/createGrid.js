@@ -74,6 +74,9 @@ module.exports = {
     createGrid,
     createGridFromBlock: (block, allTiles) => {
         const grid = createGridWithPostProcessing(block)
+        grid.forEach(row => {
+            console.log(row.map(v => v === null ? "n": v).join(" "))
+        })
         return grid.map(row => {
             return row.map(cell => {
                 if (cell === null) return [ "empty" ]
