@@ -80,11 +80,21 @@ module.exports = {
         grid.edgeMap = Array.from({ length: grid.length }, () => {
             return Array.from({ length: grid[0].length }, () => 0)
         })
+        const isEdge = (row, col) => {
+            return grid[row-1][col]==0 || grid[row][col-1]==0 || grid[row+1][col]==0 || grid[row][col+1]==0
+        }
+        grid.map((row, i) => {
+            return row.map((cell, j) => {
+                if (cell === null || cell === 0) return [ "empty" ]
+                if (!isEdge(i, j)) return
+                grid.edgeMap[i][j] = 1
+            })
+        })
         return grid.map((row, i) => {
             return row.map((cell, j) => {
                 if (cell === null) return [ "empty" ]
                 if (cell === 0) return { type: "semi_collapsed", tile: "empty" }
-                const getUndifferentiatedTiles(allTiles)
+                return getUndifferentiatedTiles(allTiles)
             })
         })
     }
