@@ -1,6 +1,7 @@
 function collapseCell(grid, row, col) {
-    const possibleTiles = grid[row][col];
-    const chosenTile = chooseTileWithWeight(possibleTiles);
+    const tilesOrSemicollapsedTile = grid[row][col];
+    const semicollapsed = tilesOrSemicollapsedTile.type === "semi_collapsed"
+    const chosenTile = semicollapsed ? tilesOrSemicollapsedTile.tile: chooseTileWithWeight(tilesOrSemicollapsedTile);
     grid[row][col] = [chosenTile]; // Collapse to one tile
 }
 

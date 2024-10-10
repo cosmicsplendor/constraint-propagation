@@ -1,9 +1,11 @@
 const collapseCell = require("./collapseCell");
 const findLowestEntropyCell = require("./findLowestEntropyCell");
-const createGrid = require("./createGrid");
 const propagateConstraints = require("./propagateConstraints");
 function isFullyCollapsed(grid) {
-    return grid.every(row => row.every(cell => cell.length === 1 || cell.length === 0));
+    return grid.every(row => row.every(cell => {
+        if (cell.type === "semi_collapsed") return false
+        return cell.length === 1 || cell.length === 0
+    }));
 }
 
 function execWFC(table, grid) {
