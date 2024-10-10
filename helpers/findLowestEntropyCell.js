@@ -1,7 +1,7 @@
 function getCellEntropy(cell, edge) {
     if (cell.length === 0) return Infinity
     if (cell.length === 1 && typeof cell[0] === "string") return Infinity
-    return cell.length + edge; // The number of possible tiles for this cell
+    return cell.length - edge; // The number of possible tiles for this cell
 }
 function findLowestEntropyCell(grid) {
     let minEntropy = Infinity;
@@ -15,7 +15,7 @@ function findLowestEntropyCell(grid) {
             }
         }
     }
-
+    console.log(selectedCell)
     return selectedCell;
 }
 

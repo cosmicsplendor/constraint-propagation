@@ -9,9 +9,7 @@ const adjOffsets = [
 function propagate(table, grid, row, col) {
     const semicollapsed = grid[row][col].type === "semi_collapsed"
     const tile = semicollapsed ? grid[row][col].tile: grid[row][col][0]; // The collapsed tile
-    console.log({ row, col})
     adjOffsets.forEach(({ dir, offset }) => {
-        console.log(`${dir}`)
         const [dx, dy] = offset;
         const adjRow = row + dx;
         const adjCol = col + dy;
