@@ -42,7 +42,9 @@ const tileTypeToNumber = {
     "top-right-seam": 13
 };
 
-const getTileNumber = configuration => {
+const getTileNumber = (grid, row, col) => {
+    if (grid[row][col] === 0) return "empty"
+    const configuration = getConfig(grid, row, col)
     const tileType = getTileType(configuration);
     return tileTypeToNumber[tileType] || 0; // Returns 0 for "unknown" type
 };
@@ -77,4 +79,4 @@ function getConfig(grid, row, col) {
     return config;
 }
 
-MediaSourceHandle.exports = getTileNumber
+module.exports = getTileNumber
