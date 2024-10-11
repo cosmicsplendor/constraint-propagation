@@ -15,7 +15,8 @@ async function execWFC(table, grid, exportGrid) {
         propagateConstraints(table, grid, row, col);
         
         // await waitForKeyPress()
-        // require("fs").writeFileSync("./preview-grid.json", JSON.stringify(grid[2][3], undefined, 3))
+        // require("fs").writeFileSync("./preview-grid.json", JSON.stringify([grid[2][3], grid[2][4]], undefined, 3))
+        // exportGrid(grid)
     }
     exportGrid(grid)
     return grid

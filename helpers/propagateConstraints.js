@@ -27,7 +27,7 @@ function propagate(table, grid, row, col) {
         // update weights
         grid[adjRow][adjCol].forEach(curTile => {
             const dw = validTiles.find(t => t.tile === curTile.tile).weight
-            curTile.weight += dw
+            curTile.weight += curTile.weight === 0 ? 0: dw
         })
         // normalize weights
         normalizeWeights(grid[adjRow][adjCol])
