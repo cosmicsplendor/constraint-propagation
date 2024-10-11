@@ -135,6 +135,7 @@ const createGrid = (block, allTiles) => {
     const grid = createPrereqGrid(block)
     return Array.from({ length: grid.length - 2 }, (_, j) => {
         return Array.from({ length: grid[0].length - 2 }, (_, i) => {
+            if (grid[j + 1][i + 1] === 0) return ["empty"]
             const num = getTileNumber(getConfig(grid, j + 1, i + 1))
             if (num === 1) return getUndifferentiatedTiles(allTiles)
          
