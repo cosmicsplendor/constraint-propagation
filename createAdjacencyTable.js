@@ -20,22 +20,34 @@ class Adjacency {
     set(dir, srcTile, targetTiles, weight=1) {
         const possibleTiles = this.get(srcTile, dir)
         targetTiles = Array.isArray(targetTiles) ? targetTiles: [targetTiles]
-        targetTiles.ForEach(tile => {
+        targetTiles.forEach(tile => {
             if (tile === srcTile) return
             possibleTiles.push({ tile, weight })
             this.get(tile, inverseDir[dir]).push({ tile, weight })
         })
     }
-    up(tile, tiles, weight) {
+    normalizeWeights() {
+        Object.values(this.table).forEach(data => {
+            Object.values(data).forEach(dirData => {
+                const sum = dirData.reduce((acc, x) => acc + x.weight, 0)
+                for (let i = 0; i < dirData.length; i++) {
+                    dirData[i].weight  /= sum
+                }
+            })
+        })
+        return this
+    }
+    up({ tile, tiles, weight }) {
         this.set("up", tile, tiles, weight)
     }
-    down(tile, ...tiles) {
+    down({ tile, tiles, weight }) {
         this.set("down", tile, tiles, weight)
     }
-    left(tile, ...tiles) {
+    left({ tile, tiles, weight }) {
         this.set("left", tile, tiles, weight)
     }
-    right(tile, ...tiles) {
+    right({ tile, tiles, weight }) {
         this.set("right", tile, tiles, weight)
     }
 }
+const adjacency = new Adjacency()
