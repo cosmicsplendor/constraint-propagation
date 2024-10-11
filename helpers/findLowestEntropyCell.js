@@ -15,7 +15,6 @@ function findLowestEntropyCell(grid) {
             }
         }
     }
-    console.log(selectedCell)
     return selectedCell;
 }
 
