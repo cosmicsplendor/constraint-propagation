@@ -7,8 +7,7 @@ const adjOffsets = [
 ]
 
 function propagate(table, grid, row, col) {
-    const semicollapsed = grid[row][col].type === "semi_collapsed"
-    const tile = semicollapsed ? grid[row][col].tile: grid[row][col][0]; // The collapsed tile
+    const tile = grid[row][col][0]; // The collapsed tile
     adjOffsets.forEach(({ dir, offset }) => {
         const [dx, dy] = offset;
         const adjRow = row + dx;
@@ -18,7 +17,7 @@ function propagate(table, grid, row, col) {
         if (grid[adjRow][adjCol].length === 1) return
         if (grid[adjRow][adjCol].type === "semi_collapsed") return
 
-        const validTiles = table[tile][dir];
+        const validTiles = table[tile.startsWith("wt") ? "wt_1": tile][dir];
         const validTileNames = validTiles.map(t => t.tile)
 
         // Restrict the neighbor's possible tiles to only the valid ones

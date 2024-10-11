@@ -27,8 +27,8 @@ class Adjacency {
         const possibleTiles = this.get(srcTile, dir)
         targetTiles = Array.isArray(targetTiles) ? targetTiles: [targetTiles]
         targetTiles.forEach(tile => {
-            if (tile === srcTile) return
             possibleTiles.push({ tile, weight })
+            if (tile === srcTile) return
             this.get(tile, inverseDir[dir]).push({ tile: srcTile, weight: reverseWeight })
         })
     }
@@ -91,31 +91,33 @@ class Adjacency {
 }
 
 const adjacency = new Adjacency()
-const engravings = ["en1", "en2", "en6", "en8", "dml15", "dml16"]
+const engravings = ["en1", "en2", "en6", "en8", "dml5", "dml6"]
 const  backwalls = ["bw1", "bw3", "bw4", "bw5", "bw6", "bw7"]
 const backwallsDown = ["bw2", "bw12", "bw13"]
 const backwallsUp = "bw3"
 
 // generic wall tile
-adjacency.all({ tile: "wt_1", tiles: "wt_1", weight: HIGH * 5 })
+adjacency.all({ tile: "wt_1", tiles: "wt_1", weight: HIGH * 200 })
 adjacency.all({ tile: "wt_1", tiles: engravings.concat(backwalls), weight: LOW, reverseWeight: MEDIUM * 3 })
 adjacency.all({ tile: "wt_1", tiles: [ "en4", "en5", "en7", "en10", "win1" ], weight: MEDIUM, reverseWeight: MEDIUM * 3})
 
-adjacency.downExclusive({ tile: "wt_1", tiles: backwallsUp, weight: MEDIUM, reverseWeight: MEDIUM * 3 })
-adjacency.upExclusive({ tile: "wt_1", tiles: backwallsDown, weight: MEDIUM, reverseWeight: MEDIUM * 3 })
+adjacency.all({ tile: "wt_1", tiles: backwallsUp.concat(backwallsDown), weight: MEDIUM, reverseWeight: MEDIUM * 3 })
 
 // window
 adjacency.up({ tile: "win1", tiles: ["en4"], weight: HIGH })
 adjacency.down({ tile: "win1", tiles: ["en7"], weight: HIGH })
-adjacency.all({ tile: "win1", tiles: ["en10", ...engravings, ...backwalls.slice(0, 2)], weight: LOW / 2})
+adjacency.all({ tile: "win1", tiles: ["en10", ...engravings ], weight: LOW / 2})
 
 // upside down tetris bricks
-adjacency.all({ tile: "en4", tiles: ["en7"], weight: HIGH })
-adjacency.all({ tile: "en4", tiles: ["en10", "bw1", "bw5", "bw7"], weight: LOW })
+adjacency.up({ tile: "en4", tiles: ["en7"], weight: HIGH })
+adjacency.down({ tile: "en4", tiles: ["en7"], weight: HIGH }) 
+adjacency.sides({ tile: "en4", tiles: ["en7"], weight: LOW })
+adjacency.sides({ tile: "en4", tiles: ["en10", "bw1", "bw5", "bw7"], weight: LOW })
 adjacency.all({ tile: "en7", tiles: ["en10", "bw1", "bw5", "bw7"], weight: LOW })
 
 // wall tile bottom seam
 adjacency.downExclusive({ tile: "dml10", tiles: [ "wt_1" ], weight: MEDIUM * 3 })
 adjacency.down({ tile: "dml10", tiles: backwallsDown, weight: MEDIUM })
 adjacency.sides({ tile: "dml10", tiles: ["dml10"], weight: MEDIUM })
-adjacency.export()
+
+module.exports = adjacency.normalizeWeights().table

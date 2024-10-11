@@ -138,8 +138,7 @@ const createGrid = (block, allTiles) => {
             if (grid[j + 1][i + 1] === 0) return ["empty"]
             const num = getTileNumber(getConfig(grid, j + 1, i + 1))
             if (num === 1) return getUndifferentiatedTiles(allTiles)
-         
-            return [`wt_${num}`]
+            return { type: "semi_collapsed", tile: `wt_${num}` }
         })
     })
 }

@@ -1,5 +1,5 @@
 const execWFC = require("./helpers/execWFC");
-const table = require("./adjacencyTable.json");
+const table = require("./adjacencyTable.js");
 const exportData = require("./helpers/exportData");
 const createGrid = require("./helpers/createGrid")
 
@@ -26,14 +26,14 @@ const block1 = {
 const block2 = {
   x: 0,
   y: 0,
-  w: 10,
-  h: 10,
+  w: 5,
+  h: 5,
   children: [
-    {x: 0, y:0, w:10, h: 10},
+    {x: 0, y:0, w:5, h: 5},
   ]
 }
 
-const grid =  createGrid(block1, Object.keys(table))
+const grid =  createGrid(block2, Object.keys(table))
 execWFC(table, grid, g => {
   exportData("./preview/map.json", g)
 })
