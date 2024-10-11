@@ -86,7 +86,7 @@ class Adjacency {
         this.down(props)
     }
     export() {
-        require("fs").writeFileSync("./adjacency.json", JSON.stringify(this.table))
+        require("fs").writeFileSync("./adjacency.json", JSON.stringify(this.normalizeWeights().table))
     }
 }
 
@@ -116,6 +116,6 @@ adjacency.all({ tile: "en7", tiles: ["en10", "bw1", "bw5", "bw7"], weight: LOW }
 
 // wall tile bottom seam
 adjacency.downExclusive({ tile: "dml10", tiles: [ "wt_1" ], weight: MEDIUM * 3 })
-adjacency.down({ tile: "dml10", tiles: [backwallsDown], weight: MEDIUM })
+adjacency.down({ tile: "dml10", tiles: backwallsDown, weight: MEDIUM })
 adjacency.sides({ tile: "dml10", tiles: ["dml10"], weight: MEDIUM })
 adjacency.export()

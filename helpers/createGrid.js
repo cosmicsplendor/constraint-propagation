@@ -1,101 +1,92 @@
-function createGridWithPostProcessing({ x, y, w, h, children }) {
-    // Step 1: Determine the grid size after extending by 1 unit on all sides
-    const gridHeight = h + 2;
-    const gridWidth = w + 2;
+const tileTypeToNumber = {
+    "inside": 1,
+    "bottom-left": 2,
+    "bottom-right": 3,
+    "right": 4,
+    "left": 5,
+    "top-right": 6,
+    "top-left": 7,
+    "bottom": 8,
+    "top": 9,
+    "bottom-left-seam": 10,
+    "bottom-right-seam": 11,
+    "top-left-seam": 12,
+    "top-right-seam": 13
+};
 
-    // Initialize the grid with null values
-    let grid = Array.from({ length: gridHeight }, () => Array(gridWidth).fill(null));
+const getTileNumber = configuration => {
+    const tileType = getTileType(configuration);
+    return tileTypeToNumber[tileType] || 0; // Returns 0 for "unknown" type
+};
+function createPrereqGrid(data) {
+    // Define the grid dimensions
+    const gridHeight = data.h + 2 // Height of the main area plus 1 unit top and bottom
+    const gridWidth = data.w + 2  // Width of the main area plus 1 unit left and right
+    const grid = Array.from({ length: gridHeight }, () => Array(gridWidth).fill(0))
 
-    // Step 2: Fill the parent area with 0, extended by 1 unit
-    for (let i = 1; i <= h; i++) {
-        for (let j = 1; j <= w; j++) {
-            grid[i][j] = 0;
+    // Mark the main rectangle (at offset (1, 1))
+    for (let i = 1; i <= data.h; i++) {
+        for (let j = 1; j <= data.w; j++) {
+            grid[i][j] = 1
         }
     }
 
-    // Step 3: Fill the children areas with 1
-    children.forEach(child => {
-        for (let i = 0; i < child.h; i++) {
-            for (let j = 0; j < child.w; j++) {
-                const gridX = j + (child.x - x) + 1;  // adjust for extended padding
-                const gridY = i + (child.y - y) + 1;
-                grid[gridY][gridX] = 1;
+    // Mark the children rectangles with the same offset
+    data.children.forEach(child => {
+        for (let i = child.y - data.y + 1; i < child.y - data.y + child.h + 1; i++) {
+            for (let j = child.x - data.x + 1; j < child.x - data.x + child.w + 1; j++) {
+                grid[i][j] = 1
             }
         }
     });
 
-    // Step 4: Post processing step
-    for (let curY = 0; curY < gridHeight; curY++) {
-        for (let curX = 0; curX < gridWidth; curX++) {
-            if (grid[curY][curX] === 1) {
-                continue;  // Step 1: If the cell is 1, skip it
-            }
+    // Create a new grid for the expanded area
+    const expandedGrid = Array.from({ length: gridHeight }, () => Array(gridWidth).fill(1)); // Start with all cells set to 1
 
-            // Step 2: Scan along the row (horizontal scan)
-            let deltaX = Infinity;
-            for (let scanX = 0; scanX < gridWidth; scanX++) {
-                if (grid[curY][scanX] === 1) {
-                    deltaX = Math.min(deltaX, Math.abs(scanX - curX));
+    // Expand the marked areas by 1 unit on all sides
+    for (let i = 0; i < gridHeight; i++) {
+        for (let j = 0; j < gridWidth; j++) {
+            if (grid[i][j] === 1) {
+                // Set the current cell and surrounding cells to 0 in the expanded grid
+                for (let di = -1; di <= 1; di++) {
+                    for (let dj = -1; dj <= 1; dj++) {
+                        const ni = i + di;
+                        const nj = j + dj;
+                        if (ni >= 0 && ni < gridHeight && nj >= 0 && nj < gridWidth) {
+                            expandedGrid[ni][nj] = 0;
+                        }
+                    }
                 }
-            }
-
-            // Step 2: Scan along the column (vertical scan)
-            let deltaY = Infinity;
-            for (let scanY = 0; scanY < gridHeight; scanY++) {
-                if (grid[scanY][curX] === 1) {
-                    deltaY = Math.min(deltaY, Math.abs(scanY - curY));
-                }
-            }
-
-            // Step 3: If deltaX > 1 and deltaY > 1, set the current cell to null
-            // This ensures we only set null if both deltas are greater than 1
-            if (deltaX > 1 && deltaY > 1) {
-                grid[curY][curX] = null;
-            } else {
-                grid[curY][curX] = 0;  // Extend cells that are near to 1
             }
         }
     }
 
-    return grid;
+    // Restore the bounded areas marked by children rectangles to 1
+    data.children.forEach(child => {
+        for (let i = child.y - data.y + 1; i < child.y - data.y + child.h + 1; i++) {
+            for (let j = child.x - data.x + 1; j < child.x - data.x + child.w + 1; j++) {
+                expandedGrid[i][j] = 1;
+            }
+        }
+    });
+
+    return expandedGrid;
 }
 
 const getUndifferentiatedTiles = tiles => {
     return tiles.map(key => ({ tile: key, weight: 1 / tiles.length }))
 }
 
-const createGrid = (gridWidth, gridHeight, allTiles) => Array.from({ length: gridHeight }, () =>
-    Array.from({ length: gridWidth }, () => getUndifferentiatedTiles(allTiles))
-)
-
-
-
-module.exports = {
-    createGrid,
-    createGridFromBlock: (block, allTiles) => {
-        const grid = createGridWithPostProcessing(block)
-        grid.forEach(row => {
-            console.log(row.map(v => v === null ? "n": v).join(" "))
+const createGrid = block => {
+    const grid = createPrereqGrid(block)
+    return Array.from({ length: grid.length - 2 }, (_, j) => {
+        return Array.from({ length: grid[0].length - 2 }, (_, i) => {
+            const num = getTileNumber(grid, j + 1, i + 1)
+            if (num === 1) return getUndifferentiatedTiles
+         
+            return [`wt_${num}`]
         })
-        const edgeMap = Array.from({ length: grid.length }, () => {
-            return Array.from({ length: grid[0].length }, () => 0)
-        })
-        const isEdge = (row, col) => {
-            return grid[row-1][col]==0 || grid[row][col-1]==0 || grid[row+1][col]==0 || grid[row][col+1]==0
-        }
-        grid.forEach((row, i) => {
-            return row.forEach((cell, j) => {
-                if (cell === null || cell === 0) return [ "empty" ]
-                if (!isEdge(i, j)) return
-                edgeMap[i][j] = 1
-            })
-        })
-        return Object.assign(grid.map((row, i) => {
-            return row.map((cell, j) => {
-                if (cell === null) return [ "empty" ]
-                if (cell === 0) return { type: "semi_collapsed", tile: "empty" }
-                return getUndifferentiatedTiles(allTiles)
-            })
-        }), { edgeMap })
-    }
+    })
 }
+
+module.exports = createGrid
