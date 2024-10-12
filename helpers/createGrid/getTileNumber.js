@@ -1,3 +1,28 @@
+const directions = [
+    { name: 'topLeft', dx: -1, dy: -1 },
+    { name: 'top', dx: -1, dy: 0 },
+    { name: 'topRight', dx: -1, dy: 1 },
+    { name: 'right', dx: 0, dy: 1 },
+    { name: 'bottomRight', dx: 1, dy: 1 },
+    { name: 'bottom', dx: 1, dy: 0 },
+    { name: 'bottomLeft', dx: 1, dy: -1 },
+    { name: 'left', dx: 0, dy: -1 }
+]
+const tileTypeToNumber = {
+    "inside": 1,
+    "bottom-left": 2,
+    "bottom-right": 3,
+    "right": 4,
+    "left": 5,
+    "top-right": 6,
+    "top-left": 7,
+    "bottom": 8,
+    "top": 9,
+    "bottom-left-seam": 10,
+    "bottom-right-seam": 11,
+    "top-left-seam": 12,
+    "top-right-seam": 13
+};
 const getTileType = configuration => {
     const { topLeft, top, topRight, right, bottomRight, bottom, bottomLeft, left } = configuration
 
@@ -26,41 +51,6 @@ const getTileType = configuration => {
     // Default case if no other conditions are met
     return "unknown"
 }
-const tileTypeToNumber = {
-    "inside": 1,
-    "bottom-left": 2,
-    "bottom-right": 3,
-    "right": 4,
-    "left": 5,
-    "top-right": 6,
-    "top-left": 7,
-    "bottom": 8,
-    "top": 9,
-    "bottom-left-seam": 10,
-    "bottom-right-seam": 11,
-    "top-left-seam": 12,
-    "top-right-seam": 13
-};
-
-const getTileNumber = (grid, row, col) => {
-    if (grid[row][col] === 0) return "empty"
-    const configuration = getConfig(grid, row, col)
-    const tileType = getTileType(configuration);
-    return tileTypeToNumber[tileType] || 0; // Returns 0 for "unknown" type
-};
-// Enumerate and cache directions
-const directions = [
-    { name: 'topLeft', dx: -1, dy: -1 },
-    { name: 'top', dx: -1, dy: 0 },
-    { name: 'topRight', dx: -1, dy: 1 },
-    { name: 'right', dx: 0, dy: 1 },
-    { name: 'bottomRight', dx: 1, dy: 1 },
-    { name: 'bottom', dx: 1, dy: 0 },
-    { name: 'bottomLeft', dx: 1, dy: -1 },
-    { name: 'left', dx: 0, dy: -1 }
-];
-
-// Function to get the configuration for a cell
 function getConfig(grid, row, col) {
     const config = {};
     
@@ -78,5 +68,9 @@ function getConfig(grid, row, col) {
     
     return config;
 }
+const getTileNumber = (grid, row, col) => {
+    const tileType = getTileType(getConfig(grid, row, col));
+    return tileTypeToNumber[tileType] || 0; // Returns 0 for "unknown" type
+};
 
 module.exports = getTileNumber

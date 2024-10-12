@@ -27,9 +27,9 @@ const block2 = {
   x: 0,
   y: 0,
   w: 5,
-  h: 5,
+  h: 8,
   children: [
-    {x: 0, y:0, w:5, h: 5},
+    {x: 0, y:0, w:5, h: 8},
   ]
 }
 

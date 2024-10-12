@@ -98,11 +98,10 @@ const backwallsDown = ["bw2", "bw12", "bw13"]
 const backwallsUp = "bw3"
 
 // generic wall tile
-adjacency.all({ tile: "wt_1", tiles: "wt_1", weight: HIGH * 10 })
-adjacency.all({ tile: "wt_1", tiles: engravings.concat(backwalls), weight: LOW, reverseWeight: MEDIUM * 10 })
+adjacency.all({ tile: "wt_1", tiles: "wt_1", weight: HIGH * 100 })
+adjacency.all({ tile: "wt_1", tiles: engravings, weight: LOW, reverseWeight: MEDIUM * 10 })
 adjacency.all({ tile: "wt_1", tiles: [ "en4", "en5", "en7", "en10", "win1" ], weight: MEDIUM, reverseWeight: MEDIUM * 10})
-
-adjacency.all({ tile: "wt_1", tiles: [backwallsUp].concat(backwallsDown), weight: MEDIUM, reverseWeight: MEDIUM * 10 })
+adjacency.all({ tile: "wt_1", tiles: [backwallsUp].concat(backwallsDown), weight: LOW, reverseWeight: MEDIUM * 10 })
 
 // window
 adjacency.up({ tile: "win1", tiles: ["en4"], weight: HIGH })
