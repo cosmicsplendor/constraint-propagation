@@ -1,4 +1,5 @@
-function findEnclosed0Cols(grid) {
+function findEnclosed0Cols(_grid) {
+    const grid = _grid.map(row => row.map(cell => cell === "empty" ? 0: 1))
     const rows = grid.length;
     const cols = grid[0].length;
 
@@ -58,7 +59,6 @@ function findEnclosed0Cols(grid) {
 }
 function getColumns(regions) {
     const group = {}
-    console.log(regions)
     regions.forEach(r => {
         group[r[1]] = group[r[1]] ?? []
         group[r[1]].push(r)

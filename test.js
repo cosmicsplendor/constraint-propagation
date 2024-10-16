@@ -58,7 +58,6 @@ function findEnclosed0Cols(grid) {
 }
 function getColumns(regions) {
     const group = {}
-    console.log(regions)
     regions.forEach(r => {
         group[r[1]] = group[r[1]] ?? []
         group[r[1]].push(r)
@@ -85,4 +84,4 @@ const grid = [
     [0, 0, 0, 0, 0, 1, 1, 1, 1, 1]
 ];
 
-console.log(findZeroRegions(grid));
+console.log(findEnclosed0Cols(grid));

@@ -2,7 +2,6 @@ const getTileNumber = require("./getTileNumber")
 const hollowOutGrid = require("./hollowOutGrid")
 
 function createPrereqGrid(data) {
-    console.log(data)
     // Define the grid dimensions
     const gridHeight = data.h + 2 // Height of the main area plus 1 unit top and bottom
     const gridWidth = data.w + 2  // Width of the main area plus 1 unit left and right

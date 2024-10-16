@@ -1,3 +1,4 @@
+const findEnclosed0Cols = require("./findEnclosed0Cols")
 const edgeTiles = Array.from({ length: 16 }, (_, i) => `wt_${i + 2}`).concat("empty")
 function postprocessGrid(grid) {
     // Helper to get random chance
@@ -45,7 +46,6 @@ function postprocessGrid(grid) {
 
             // Rule 5: Replace the left cell of wt_4 with wt_16 and itself with "empty"
             if (cell === "wt_4" && chance(0.1)) {
-                console.log(grid[row][col - 1])
                 if (col - 1 >= 0 && !edgeTiles.includes(grid[row][col - 1])) {
                     grid[row][col - 1] = "wt_16";
                     grid[row][col] = "empty";
@@ -53,7 +53,35 @@ function postprocessGrid(grid) {
             }
         }
     }
-
+    const topTiles = [ "bw13", "bw12", "bw2"]
+    const bottomTile = "bw3"
+    const middleTiles = ["bw1", "bw4", "bw5", "bw6", "bw5"]
+    const pickOne = array => {
+        return array[Math.floor(Math.random() * array.length)]
+    }
+    const getEnclosedTile = (i, maxI, height) => {
+        if (i===0) {
+            return Math.random() < 0.4 ? pickOne(topTiles): "bw2"
+        }
+        if (i===maxI-1 && maxI ===height) {
+            return bottomTile
+        }
+        return (Math.random() < 0.4) ? pickOne(middleTiles): "bw1"
+    }
+    findEnclosed0Cols(grid).forEach(({ row, col, height: h}) => {
+        const rand = Math.random()
+        const height = Math.ceil((1 - rand * rand) * h)
+        for (let i = 0; i < height; i++) {
+            const tile = getEnclosedTile(i, height, h)
+            grid[row+i][col] = tile
+            console.log(grid[row+i][col])
+            console.log([row+i, col, tile])
+        }
+        if (height < h) {
+            grid[row+height][col] = "bw10"
+        }
+    })
+    console.log(grid)
     return grid;
 }
 
