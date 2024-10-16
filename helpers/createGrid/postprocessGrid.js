@@ -1,3 +1,4 @@
+const edgeTiles = Array.from({ length: 16 }, (_, i) => `wt_${i + 2}`).concat("empty")
 function postprocessGrid(grid) {
     // Helper to get random chance
     function chance(probability) {
@@ -13,15 +14,14 @@ function postprocessGrid(grid) {
             let cell = grid[row][col];
 
             // Rule 1: Replace wt_9 with one from replacements_wt9 based on chance
-            console.log(cell)
-            if (cell === "wt_9" && chance(1)) {
+            if (cell === "wt_9" && chance(0.075)) {
                 let index = Math.floor(Math.random() * replacements_wt9.length);
                 grid[row][col] = replacements_wt9[index];
             }
 
             // Rule 2: Replace wt_5 with wt_17 and the right cell with "empty"
-            if (cell === "wt_5" && chance(0.075)) {
-                if (col + 1 < grid[row].length && grid[row][col + 1] !== "empty") {
+            if (cell === "wt_5" && chance(0.1)) {
+                if (col + 1 < grid[row].length &&  !edgeTiles.includes(grid[row][col + 1])) {
                     grid[row][col] = "wt_17";
                     grid[row][col + 1] = "empty";
                 }
@@ -44,8 +44,9 @@ function postprocessGrid(grid) {
             }
 
             // Rule 5: Replace the left cell of wt_4 with wt_16 and itself with "empty"
-            if (cell === "wt_4" && chance(0.075)) {
-                if (col - 1 >= 0 && grid[row][col - 1] !== "empty") {
+            if (cell === "wt_4" && chance(0.1)) {
+                console.log(grid[row][col - 1])
+                if (col - 1 >= 0 && !edgeTiles.includes(grid[row][col - 1])) {
                     grid[row][col - 1] = "wt_16";
                     grid[row][col] = "empty";
                 }

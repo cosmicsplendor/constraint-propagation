@@ -1,6 +1,8 @@
 const collapseCell = require("./collapseCell");
 const findLowestEntropyCell = require("./findLowestEntropyCell");
 const propagateConstraints = require("./propagateConstraints");
+const postprocessGrid = require("./createGrid/postprocessGrid")
+const sanitizeGrid = require("./sanitizeGrid")
 const waitForKeyPress = require("./waitForKeyPress");
 function isFullyCollapsed(grid) {
     return grid.every(row => row.every(cell => {
@@ -18,8 +20,9 @@ async function execWFC(table, grid, exportGrid) {
         // require("fs").writeFileSync("./preview-grid.json", JSON.stringify(grid, undefined, 3))
         // exportGrid(grid)
     }
-    exportGrid(grid)
-    return grid
+    const finalGrid = postprocessGrid(sanitizeGrid(grid))
+    exportGrid(finalGrid)
+    return finalGrid
 }
 
 module.exports = execWFC

@@ -26,10 +26,20 @@ const block1 = {
 const block2 = {
   x: 0,
   y: 0,
-  w: 5,
-  h: 8,
+  w: 10,
+  h: 10,
   children: [
-    {x: 0, y:0, w:5, h: 8},
+    {x: 0, y:0, w:5, h: 6},
+    {x: 5, y:0, w:5, h: 10},
+  ]
+}
+const block3 = {
+  x: 0,
+  y: 0,
+  w: 5,
+  h: 5,
+  children: [
+    {x: 0, y:0, w:5, h: 5},
   ]
 }
 

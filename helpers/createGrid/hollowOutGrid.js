@@ -101,5 +101,6 @@ function fullHollow(grid) {
 
 module.exports = grid => {
     if (Math.random() < 0.5) return fullHollow(grid)
-    return partialHollow(grid)
+    if (Math.random() < 0.5) partialHollow(grid)
+    return grid
 }
