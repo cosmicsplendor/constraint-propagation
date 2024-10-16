@@ -1,5 +1,5 @@
 const findEnclosed0Cols = require("./findEnclosed0Cols")
-const edgeTiles = Array.from({ length: 16 }, (_, i) => `wt_${i + 2}`).concat("empty")
+const edgeTiles = Array.from({ length: 16 }, (_, i) => `wt_${i + 2}`).concat("empty").concat(["bw12", "bw13", "bw2", "bw10"])
 function postprocessGrid(grid) {
     // Helper to get random chance
     function chance(probability) {
@@ -15,7 +15,7 @@ function postprocessGrid(grid) {
             let cell = grid[row][col];
 
             // Rule 1: Replace wt_9 with one from replacements_wt9 based on chance
-            if (cell === "wt_9" && chance(0.075)) {
+            if (cell === "wt_9" && chance(0.225)) {
                 let index = Math.floor(Math.random() * replacements_wt9.length);
                 grid[row][col] = replacements_wt9[index];
             }
@@ -75,7 +75,7 @@ function postprocessGrid(grid) {
             const top = grid[j-1] && grid[j-1][i]
             const bottom = grid[j+1] && grid[j+1][i]
             if ([left, right, top, bottom].every(cell => cell !== "empty")) {
-                if (top === "wt_8") return 0
+                // if (top === "wt_8") return 0
                 return 1
             }
             return cell === "empty" ? 0: 1

@@ -43,7 +43,7 @@ const block3 = {
   ]
 }
 
-const grid =  createGrid(block2, Object.keys(table))
+const grid =  createGrid(block3, Object.keys(table))
 execWFC(table, grid, g => {
   exportData("./preview/map.json", g)
 })
