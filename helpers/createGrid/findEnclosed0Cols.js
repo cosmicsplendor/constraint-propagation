@@ -1,5 +1,4 @@
-function findEnclosed0Cols(_grid) {
-    const grid = _grid.map(row => row.map(cell => cell === "empty" ? 0: 1))
+function findEnclosed0Cols(grid) {
     const rows = grid.length;
     const cols = grid[0].length;
 

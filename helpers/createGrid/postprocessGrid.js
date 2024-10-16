@@ -61,27 +61,37 @@ function postprocessGrid(grid) {
     }
     const getEnclosedTile = (i, maxI, height) => {
         if (i===0) {
-            return Math.random() < 0.4 ? pickOne(topTiles): "bw2"
+            return Math.random() < 0.25 ? pickOne(topTiles): "bw2"
         }
         if (i===maxI-1 && maxI ===height) {
             return bottomTile
         }
         return (Math.random() < 0.4) ? pickOne(middleTiles): "bw1"
     }
-    findEnclosed0Cols(grid).forEach(({ row, col, height: h}) => {
+    const sanitizedGrid = grid.map((row, j) => {
+        return row.map((cell, i) => {
+            const left = grid[j][i-1]
+            const right = grid[j][i+1]
+            const top = grid[j-1] && grid[j-1][i]
+            const bottom = grid[j+1] && grid[j+1][i]
+            if ([left, right, top, bottom].every(cell => cell !== "empty")) {
+                if (top === "wt_8") return 0
+                return 1
+            }
+            return cell === "empty" ? 0: 1
+        })
+    })
+    findEnclosed0Cols(sanitizedGrid).forEach(({ row, col, height: h}) => {
         const rand = Math.random()
         const height = Math.ceil((1 - rand * rand) * h)
         for (let i = 0; i < height; i++) {
             const tile = getEnclosedTile(i, height, h)
             grid[row+i][col] = tile
-            console.log(grid[row+i][col])
-            console.log([row+i, col, tile])
         }
         if (height < h) {
             grid[row+height][col] = "bw10"
         }
     })
-    console.log(grid)
     return grid;
 }
 
